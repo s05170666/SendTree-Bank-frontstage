@@ -28,10 +28,10 @@ SendTree Bank 前台部分是基於 ASP.NET MVC 和現代前端技術構建的�
   - Bootstrap
   - SweetAlert
   - Chart.js
-  - DataTables
-
+    
 - **後端**：
   - ASP.NET MVC
   - C#
   - Entity Framework
   - SQL Server
+  - Azure Blob
