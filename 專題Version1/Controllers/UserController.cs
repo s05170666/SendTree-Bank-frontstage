@@ -78,10 +78,11 @@ namespace 專題Version1.Controllers
 
             if (ModelState.IsValid)
             {
+                var passwordHash = EncryptPassword(model.Password);
                 var user = _db.Customers
                            .Include(c => c.Accounts)
                            .Include(c => c.Accounts.Select(a => a.AccountType))
-                           .FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+                           .FirstOrDefault(x => x.Email == model.Email && x.Password == passwordHash);
                 if (user != null)
                 {
 
@@ -168,7 +169,7 @@ namespace 專題Version1.Controllers
             }
         }
 
-        //加密密碼
+        //轉換密碼
         public static string EncryptPassword(string password)
         {
             // 使用 SHA256 演算法

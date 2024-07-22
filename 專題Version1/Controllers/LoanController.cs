@@ -270,19 +270,5 @@ namespace 專題Version1.Controllers
             return View();
         }
 
-        // 取消貸款申請 (POST)
-        [HttpPost]
-        public ActionResult CancelApplication(int loanApplicationID)
-        {
-            var loan = _db2.LoanApplications.Find(loanApplicationID);
-            if (loan != null && loan.LoanStatus != "Confirmed")
-            {
-                _db2.LoanApplications.Remove(loan);
-                _db2.SaveChanges();
-                return RedirectToAction("MyLoan");
-            }
-            ViewBag.Message = "無法取消已確認的貸款申請";
-            return View();
-        }
     }
 }

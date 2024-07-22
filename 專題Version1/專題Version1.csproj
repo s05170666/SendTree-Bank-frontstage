@@ -546,6 +546,7 @@
     <Content Include="Views\Loan\MyLoan.cshtml" />
     <Content Include="Views\Loan\LoanDetails.cshtml" />
     <Content Include="Views\Loan\ApplyDone.cshtml" />
+    <Content Include="Views\Loan\CancelApplication.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
