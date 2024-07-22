@@ -10,13 +10,14 @@ using System.Data.Entity;
 using System.IO;
 using 專題Version1.Services;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace 專題Version1.Controllers
 {
     [SessionCheckFilter]
     public class LoanController : Controller
     {
-        private string connectionString = "DefaultEndpointsProtocol=https;AccountName=sean861226;AccountKey=h3y87dLmHcrOBLVuWCbOh+WS+QQWBpruqNPVKqqLjVH3bBNN4ThOz/InvyGMM/Ke110Yf9pV/pyc+AStwV1dXw==;EndpointSuffix=core.windows.net";
+        private string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 
         private AzureBlobService _azureBlobService;
 
