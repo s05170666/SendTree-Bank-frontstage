@@ -38,5 +38,5 @@ SendTree Bank 前台部分是基於 ASP.NET MVC 和現代前端技術構建的�
  
 
 登入測試帳密
--username:john.doe@example.com
--password:123
+  - username:john.doe@example.com
+  - password:123
