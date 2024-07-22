@@ -42,5 +42,5 @@ SendTree Bank 前台部分是基於 ASP.NET MVC 和現代前端技術構建的�
   - password:123
 
 測試資料庫
-  -CustomerDB
-  -LoanDB
+  - CustomerDB
+  - LoanDB
