@@ -1,0 +1,302 @@
+﻿@using 專題Version1.Models.ViewModels;
+@using 專題Version1.Models;
+
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-12 grid-margin">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        @{
+                            var session = (SessionModel)Session["user"];
+                        }
+                        <div id="userid" style="display:none;">@session.UserId</div>
+                    </div>
+                    <div>
+                        @*<button type="button" class="btn btn-primary btn-icon-text btn-rounded">
+                            <i class="ti-clipboard btn-icon-prepend"></i>Report
+                        </button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="app">
+            <div class="row">
+                @foreach (var account in session.Accounts)
+                {
+                    <div class="col-md-3 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title text-md-center text-xl-left account-number" style="display: none" id="accountnumber">@account.AccountNumber</p>
+                                <p class="card-title text-md-center text-xl-left">@account.AccountType.AccountTypeName</p>
+                                <div class="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
+                                    <i class="ti-money"></i>
+                                    <h3 class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0">@account.Balance.ToString("N0")</h3>
+                                    <i class="ti-hand-point-up toggle-table" id="toggleTable" style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card collapse" id="cardContainer">
+                        <div class="card-body">
+                            <h4 class="card-title">帳戶資訊</h4>
+                            <p class="card-description">
+                                Account Number: <code>{{accountDetails.AccountNumber}}</code>
+                            </p>
+                            <p class="card-description">
+                                Account Type: <code>{{accountDetails.AccountType}}</code>
+                            </p>
+                            <p class="card-description" style="color:darkblue">近五筆交易紀錄:</p>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>交易日期</th>
+                                            <th>交易金額</th>
+                                            <th>交易類別</th>
+                                            <th>交易後餘額</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="transaction in accountDetails.Transactions" :key="transaction.TransactionID">
+                                            <td>{{ formatDate(transaction.TransactionDate) }}</td>
+                                            <td>{{formatAmount(transaction.Amount)}}</td>
+                                            <td>{{transaction.TransactionType}}</td>
+                                            <td>{{formatAmount(transaction.BalanceAfterTransaction)}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-title">資產總額</p>
+                            @{
+                                var totalBalance = session.Accounts.Sum(a => a.Balance).ToString("N0");
+                            }
+                            <h1 class="text-success">@totalBalance</h1>
+                            <p class="text-muted font-weight-light">這是所有帳戶的總餘額。</p>
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 grid-margin stretch-card">
+                    <div class="card border-bottom-0">
+                        <div class="card-body pb-0">
+                            @*<i class="ti-reload"></i>*@
+                            <p class="card-title">交易筆數瀏覽</p>
+                            <div class="d-flex flex-wrap mb-5">
+                                <div class="me-5 mt-3">
+                                    <p class="text-muted">本月交易數</p>
+                                    <h3 id="transcount"></h3>
+                                </div>
+                                <div class="me-5 mt-3">
+                                    <p class="text-muted">支出筆數</p>
+                                    <h3 id="outcount"></h3>
+                                </div>
+                                <div class="me-5 mt-3">
+                                    <p class="text-muted">收入筆數</p>
+                                    <h3 id="incount"></h3>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-wrap mb-5">
+                                <div class="me-5 mt-3">
+                                    <p class="text-muted">總支出金額</p>
+                                    <h3 id="outamount"></h3>
+                                </div>
+                                <div class="me-5 mt-3">
+                                    <p class="text-muted">總收入金額</p>
+                                    <h3 id="inamount"></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <canvas id="order-chart" class="w-100" height="202"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- content-wrapper ends -->
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const vueInstance = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    accountDetails: {
+                        AccountNumber: '',
+                        AccountType: '',
+                        Balance: '',
+                        Transactions: []
+                    },
+                    currentAccountNumber: '',
+                };
+            },
+            mounted() {
+                const self = this;
+                $(".toggle-table").click(function (event) {
+                    $('#cardContainer').slideToggle('slow');
+                    if (event.target.classList.contains('toggle-table')) {
+                        const accountNumber = event.target.closest('.card-body').querySelector('.account-number').textContent.trim();
+                        if (accountNumber) {
+                            self.currentAccountNumber = accountNumber;
+                            self.fetchAccountDetails(accountNumber);
+                        }
+                    }
+                });
+            },
+            methods: {
+
+                formatAmount(amount) {
+                    // 假設 amount 是數字類型
+                    if (typeof amount !== 'number') {
+                        return ''; // 或者其他處理方式，視情況而定
+                    }
+
+                    // 使用正則表達式將金額格式化為千位分隔符的形式
+                    const formattedAmount = amount.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+                    return formattedAmount;
+                },
+
+                async fetchAccountDetails(accountNumber) {
+                    try {
+                        const response = await axios.get('@Url.Action("GetAccountDetails", "TransactionAPI")', {
+                            params: { accountNumber: accountNumber }
+                        });
+                        this.accountDetails = response.data;
+                    } catch (error) {
+                        console.error('Error fetching account details:', error);
+                    }
+                },
+                formatDate(date) {
+                    if (!date) return '';
+                    const d = new Date(date);
+                    return d.toLocaleDateString('zh-TW', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                }
+
+
+            }
+        });
+
+        $(document).ready(function () {
+            var userId = $('#userid').text(); //取得userId
+            var accountNumber = $('#accountnumber').text(); //取得accountNumber
+
+            $.ajax({
+                url: '/TransactionAPI/GetAccountInfoByUserId',
+                data: { userId: userId },
+                method: 'GET',
+                success: function (response) {
+                    var accountData = response;
+
+                    // 按AccountType分組並計算總Balance
+                    var accountTypeMap = {};
+                    accountData.forEach(function (account) {
+                        if (accountTypeMap[account.AccountType]) {
+                            accountTypeMap[account.AccountType] += account.Balance;
+                        } else {
+                            accountTypeMap[account.AccountType] = account.Balance;
+                        }
+                    });
+
+                    var labels = Object.keys(accountTypeMap);
+                    var data = Object.values(accountTypeMap);
+
+                    var ctx = document.getElementById('salesChart').getContext('2d');
+                    var salesChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: '# of Sales',
+                                data: data,
+                                backgroundColor: [
+                                    '#71c016',
+                                    '#8caaff',
+                                    '#248afd'
+                                ],
+                                borderColor: [
+                                    '#ffffff',
+                                    '#ffffff',
+                                    '#ffffff'
+                                ],
+                                borderWidth: 1
+                            }]
+                        }
+                    });
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("AccountDetails", "Account")',
+                data: { accountNumber: accountNumber },
+                success: function (response) {
+                    $("#transcount").text(response.TotalTransactionsCount);
+                    $("#outcount").text(response.OutgoingTransactionsCount);
+                    $("#incount").text(response.IncomingTransactionsCount);
+                    $("#transamount").text(response.TotalTransactionsAmount);
+                    $("#outamount").text(response.OutgoingTransactionsAmount);
+                    $("#inamount").text(response.IncomingTransactionsAmount);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+
+            $.ajax({
+                url: '@Url.Action("AccountDetails", "Account")',
+                data: { accountNumber: accountNumber },
+                type: 'GET',
+                success: function (response) {
+                    var ordersChartCanvas = $("#order-chart").get(0).getContext("2d");
+                    var ordersChart = new Chart(ordersChartCanvas, {
+                        type: 'bar',
+                        data: {
+                            labels: ["收入筆數", "支出筆數"],
+                            datasets: [{
+                                label: '交易筆數',
+                                data: [response.IncomingTransactionsCount, response.OutgoingTransactionsCount],
+                                backgroundColor: ['#4e73df', '#1cc88a'],
+                                borderColor: ['#ffffff', '#ffffff'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

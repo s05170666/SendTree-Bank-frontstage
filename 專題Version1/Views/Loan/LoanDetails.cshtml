@@ -1,0 +1,158 @@
+﻿@model 專題Version1.Models.ViewModels.LoanDetailsViewModel
+
+@{
+    ViewBag.Title = "貸款詳情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .custom-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .custom-static {
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.25rem;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2>貸款詳情</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="custom-label">案件編號</label>
+                        <p class="form-control-static custom-static">@Html.DisplayFor(model => model.LoanApplicationID)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="custom-label">貸款產品名稱</label>
+                        <p class="form-control-static custom-static">@Html.DisplayFor(model => model.ProductName)</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="custom-label">貸款金額</label>
+                        <p class="form-control-static custom-static">@Model.LoanAmount.ToString("N0")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="custom-label">經濟證明</label>
+                        <p class="form-control-static custom-static">@Html.DisplayFor(model => model.EconomicProof)</p>
+                        @*<a href="~/EconomicProofs/@Model.EconomicProof" download>下載檔案</a>*@
+                        <a href="@Url.Action("DownloadEconomicProof", "Loan", new { fileName = Model.EconomicProof })">
+                        下載文件
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="custom-label">撥款帳戶</label>
+                        <p class="form-control-static custom-static">@Html.DisplayFor(model => model.DisbursementAccount)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="custom-label">貸款期限（月）</label>
+                        <p class="form-control-static custom-static">@Html.DisplayFor(model => model.LoanTermMonths)</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="custom-label">系統自動計算利率</label>
+                        <p class="form-control-static custom-static">@Html.DisplayFor(model => model.InteresRate)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="custom-label">申請日期</label>
+                        <p class="form-control-static custom-static">@Model.ApplicationDate.ToString("yyyy/MM/dd")</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="custom-label">狀態</label>
+                        @if (Model.Status == "Pending")
+                        {
+                            <p class="form-control-static custom-static" style="color: red">審核中</p>
+                        }
+                        else if (Model.Status == "Confirmed")
+                        {
+                            <p class="form-control-static custom-static" style="color:darkblue">已審核</p>
+
+                        }
+                        else if (Model.Status == "Rejected")
+                        {
+                            <p class="form-control-static custom-static" style="color:darkorange">審核未通過</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="custom-label">還款計劃</label>
+                        @if (Model.Status == "Confirmed" && Model.RepaymentSchedules != null && Model.RepaymentSchedules.Any())
+                        {
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>繳款期限</th>
+                                        <th>應繳金額</th>
+                                        <th>還款狀態</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.RepaymentSchedules)
+                                    {
+                                        <tr>
+                                            <td>@item.RepaymentDate.ToString("yyyy-MM-dd")</td>
+                                            <td>@item.RepaymentAmount.ToString("N0")</td>
+                                            <td>
+                                                @if (item.RepaymentStatus == "Pending")
+                                                {
+                                                    <span style="color:red">未還款</span>
+                                                }
+                                                else if (item.RepaymentStatus == "Paid")
+                                                {
+                                                    <span style="color:darkblue">已還款</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p>No repayment schedules available.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("MyLoan")" class="btn btn-secondary">返回我的貸款</a>
+        </div>
+    </div>
+</div>

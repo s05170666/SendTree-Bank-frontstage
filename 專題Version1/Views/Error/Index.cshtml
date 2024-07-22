@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12 grid-margin">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title text-danger">Error</h4>
+            <p class="card-description">
+                發生了一點錯誤，請稍後再試
+                <br/>
+                或請與我們聯繫，將有專人為您服務，如有不便，敬請見諒
+            </p>
+            <div class="row">
+                <div class="col-md-3">
+                    <p class="text-primary"></p>
+                    <p class="text-success"></p>
+                    <p class="text-danger"></p>
+                    <p class="text-warning"></p>
+                    <p class="text-info"></p>
+                    <br />
+                    @Html.ActionLink("回到首頁", "Index", "User", null ,new { @class = "btn btn-info btn-rounded btn-fw" })
+
+                </div>
+                <div class="col-md-1">
+                    <p class="text-dark"></p>
+                    <p class="text-danger">錯誤資訊:</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="text-dark"></p>
+                    <p class="text-danger">@ViewBag.Message</p>
+                </div>
+                <div class="col-md-3">
+                    <img src="~/assets/images/images.png" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,168 @@
+﻿@model 專題Version1.Models.ViewModels.TransferViewModel
+
+@{
+    ViewBag.Title = "Transfer";
+}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="col-12 grid-margin stretch-card" id="app2">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">轉帳</h4>
+                    @ViewBag.Error
+
+                    @using (Html.BeginForm("Transfer", "Transaction", FormMethod.Post, new { @class = "pt-3", id = "transForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            <label for="accountSelect" class="control-label">匯出帳號:</label>
+                            @Html.DropDownListFor(model => model.FromAccount, (SelectList)ViewBag.Accounts, new { @class = "form-control", id = "accountSelect", v_model = "selectedAccount", @change = "fetchBalance" })
+                        <p v-if="accountBalance !== null" class="text-danger mt-2">可用餘額: {{formatAmount(accountBalance) }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="AccountType" class="control-label">收款帳號銀行:</label>
+                            @Html.DropDownListFor(m => m.AccountType, (SelectList)ViewBag.AccountTypes, "Select Account Type", new { @class = "form-control", @id = "accountType" })
+                        </div>
+
+                        <div class="form-group">
+                            <label for="toaccount" class="control-label">收款帳號:</label>
+                            @*@Html.LabelFor(model => model.ToAccount, new { @class = "control-label" })*@
+                            @Html.EditorFor(model => model.ToAccount, new { htmlAttributes = new { @class = "form-control", id = "toaccount" } })
+                            @Html.ValidationMessageFor(model => model.ToAccount, "", new { @class = "text-danger" })
+                        <a href="#" id="autoFillLink1" class="auth-link text-black">Demo_Alice</a>                        </div>
+
+                        <div class="form-group">
+                            <label for="amount" class="control-label">金額:</label>
+                            @*@Html.LabelFor(model => model.Amount, new { @class = "control-label" })*@
+                            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", id = "amount" } })
+                            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="control-label">備註:</label>
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input type="button" name="transbtn" value="轉帳" class="btn btn-info btn-rounded btn-fw" v-on:click="performTransfer" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<link href="~/Scripts/sweetalert2.min.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2.min.js"></script>
+<script src="~/Scripts/jquery-3.6.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            $('#autoFillLink1').click(function (e) {
+                e.preventDefault();
+
+                $('#toaccount').val('1677889900');
+
+            });
+        });
+
+        new Vue({
+            el: '#app2',
+            data() {
+                return {
+                    selectedAccount: null,
+                    accountBalance: null,
+                    accountDetails: {
+                        AccountNumber: '',
+                        AccountType: '',
+                        Transactions: [],
+                        Balance: '',
+                    }
+                };
+            },
+            watch: {
+                selectedAccount(newVal) {
+                    if (newVal) {
+                        this.fetchBalance();
+                    }
+                }
+            },
+            methods: {
+                formatAmount(amount) {
+                    // 假設 amount 是數字類型
+                    if (typeof amount !== 'number') {
+                        return ''; // 或者其他處理方式，視情況而定
+                    }
+
+                    // 使用正則表達式將金額格式化為千位分隔符的形式
+                    const formattedAmount = amount.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+                    return formattedAmount;
+                },
+                async fetchBalance() {
+                    try {
+                        const response = await axios.get('@Url.Action("GetAccountDetails", "TransactionAPI")', {
+                            params: { accountNumber: this.selectedAccount }
+                        });
+                        this.accountBalance = response.data.Balance;
+                    } catch (error) {
+                        console.error(error);
+                    }
+                },
+                async performTransfer() {
+                    const { value: password } = await Swal.fire({
+                        title: '請輸入密碼',
+                        input: 'password',
+                        inputPlaceholder: 'password',
+                        inputAttributes: {
+                            autocapitalize: 'off',
+                            autocorrect: 'off'
+                        },
+                        showCancelButton: true,
+                        confirmButtonText: '確認',
+                        cancelButtonText: '取消',
+                        showLoaderOnConfirm: true,
+                        preConfirm: async (password) => {
+                            try {
+                                const response = await axios.post('@Url.Action("VerifyPassword", "Transaction")', { password: password });
+                                if (response.data.success) {
+
+                                    return true;
+                                } else {
+                                    Swal.showValidationMessage('密碼錯誤');
+                                    return false;
+                                }
+                            } catch (error) {
+                                console.error(error);
+                                Swal.showValidationMessage('交易失敗，請重試..');
+                                return false;
+                            }
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                    });
+
+                    if (password) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '密碼驗證成功',
+                            showConfirmButton: false,
+                            timer: 1500
+
+                        }).then(() => {
+                            document.getElementById('transForm').submit();
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+}

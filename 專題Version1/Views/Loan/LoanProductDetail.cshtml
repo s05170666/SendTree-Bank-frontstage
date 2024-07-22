@@ -1,0 +1,145 @@
+﻿@model 專題Version1.Models.LoanModels.LoanProduct
+
+@{
+    ViewBag.Title = "LoanProductDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+@section style {
+    <style>
+        .content-wrapper {
+            position: relative;
+            width: 100%;
+            height: auto;
+            overflow: auto;
+            padding: 20px;
+            background-image:url('@($"https://sean861226.blob.core.windows.net/sharefolder/{Model.ImageFileName}")'); /* Use the product image filename */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .overlay {
+            position: relative;
+            text-align: center;
+            color: black;
+            z-index: 2; /* Ensure overlay content is above the background */
+        }
+
+        .overlay h1 {
+            margin: 0 0 20px;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .overlay h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .btn-warning {
+            background-color: #f0ad4e;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .btn-rounded {
+            border-radius: 50px;
+        }
+
+        .card {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9); /* Add semi-transparent background */
+            z-index: 1; /* Ensure card content is above the background but below the overlay */
+        }
+
+        .card-body h3 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .product-info {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .product-info div {
+            margin: 10px;
+        }
+
+        .product-info h1 {
+            font-size: 36px;
+            margin: 10px 0;
+        }
+
+        .product-info p {
+            font-size: 18px;
+            color: #777;
+        }
+
+        .card-description {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="overlay">
+            <h1>信貸申請到撥款最快10分鐘</h1>
+            <h3>信貸手續費限時優惠0元</h3>
+            <a href="@Url.Action("OneMinTrial")" class="btn btn-success btn-rounded btn-fw">1分鐘試算</a>
+        </div>
+
+        <hr />
+
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h3>產品優惠</h3>
+                    <h4 class="card-title">@Model.ProductName</h4>
+                    <div class="product-info">
+                        <div>
+                            <h1>@Model.InterestRate%</h1>
+                            <p>優惠利率</p>
+                        </div>
+                        <div>
+                            <h1>@Model.LoanTerm 月</h1>
+                            <p>最高可貸期限</p>
+                        </div>
+                        <div>
+                            <h1>@Model.MaxLoanAmount.ToString("N0") 元</h1>
+                            <p>最高可貸金額</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="card-description">@Model.ProductDescription</p>
+                        <div class="btn-container">
+                            @Html.ActionLink("立即申請!", "LoanCreate", "Loan", new { id = Model.LoanProductID }, new { @class = "btn btn-warning btn-rounded btn-fw" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,224 @@
+﻿@model 專題Version1.Models.ViewModels.LoanApplicationViewModel
+@using 專題Version1.Models
+@{
+    ViewBag.Title = "LoanCreate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section style {
+    <link href="~/build/css/main.css" rel="stylesheet" />
+    <link href="~/build/css/normalize.css" rel="stylesheet" />
+    <link href="~/build/css/jquery.steps.css" rel="stylesheet" />
+
+    <style>
+       
+        .main-panel {
+            padding: 20px;
+        }
+
+        .card {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px 10px 0 0;
+            text-align: center; /* 置中標題 */
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold; /* 反白標題 */
+        }
+
+        .form-sample .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-control[readonly] {
+            background-color: #e9ecef;
+            border: none;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .form-sample .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+        }
+
+        .form-sample .form-control-file {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .steps .current {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .steps .done {
+            color: #28a745;
+        }
+
+        .steps .error {
+            color: #dc3545;
+        }
+    </style>
+
+
+}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">貸款線上申請</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Preview", "Loan", FormMethod.Post, new { @class = "form-sample", id = "wizard", enctype = "multipart/form-data" }))
+                    {
+                        <h2>確認個人資料</h2>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>名</label>
+                                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.HiddenFor(model => model.CustomerID)
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>姓</label>
+                                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>生日</label>
+                                        @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>電話號碼</label>
+                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>收入</label>
+                                        @Html.DropDownListFor(model => model.IncomeRange, (SelectList)ViewBag.IncomeRangeList, new { @class = "form-control" }) 萬/年
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>職業別</label>
+                                        @Html.DropDownListFor(model => model.OccupationGroup, (SelectList)ViewBag.OccupationGroup, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <h2>貸款資料</h2>
+                        <section>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>貸款商品</label>
+                                        <div>@Model.ProductName</div>
+                                        <div id="productid" style="display:none;">@Model.LoanProductID</div>
+                                        @Html.HiddenFor(model => model.ProductName)
+                                        @Html.HiddenFor(model => model.LoanProductID)
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>貸款利率</label>
+                                        <div>@Model.InteresRate %</div>
+                                        @Html.HiddenFor(model => model.InteresRate)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>申請貸款金額</label>
+                                        @Html.EditorFor(model => model.LoanAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>還款月份</label>
+                                        @Html.EditorFor(model => model.LoanTermMonths, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>貸款匯入帳號</label>
+                                        @Html.EditorFor(model => model.DisbursementAccount, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>財力證明</label>
+                                        @Html.TextBoxFor(model => model.EconomicProof, new { type = "file", @class = "form-control-file" })
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script {
+    <script src="~/build/jquery-1.9.1.min.js"></script>
+    <script src="~/build/jquery.steps.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/build/jquery.cookie-1.3.1.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#wizard").steps({
+                headerTag: "h2",
+                bodyTag: "section",
+                transitionEffect: "slideLeft",
+                onFinishing: function (event, currentIndex) {
+                    return $("#wizard").valid();
+                },
+                onFinished: function (event, currentIndex) {
+                    $(this).submit();
+                }
+            });
+        });
+    </script>
+}

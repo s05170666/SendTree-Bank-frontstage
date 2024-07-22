@@ -1,0 +1,242 @@
+﻿@model 專題Version1.Models.ViewModels.LoanApplicationViewModel
+
+@{
+    ViewBag.Title = "Preview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .main-panel {
+        padding: 20px;
+    }
+
+    .card {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
+
+    .card-title {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .form-sample .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-control[readonly] {
+        background-color: #e9ecef;
+        border: none;
+        font-weight: bold;
+        color: #495057;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+        }
+
+    .form-control-file {
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+
+    .steps .current {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .steps .done {
+        color: #28a745;
+    }
+
+    .steps .error {
+        color: #dc3545;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .form-group.row {
+        margin-bottom: 15px;
+    }
+
+    .col-form-label {
+        text-align: right;
+        padding-right: 10px;
+    }
+</style>
+
+<div class="main-panel">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">貸款申請預覽</h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("LoanApply", "Loan", FormMethod.Post, new { id = "previewForm" }))
+                {
+                    <p class="card-description">
+                        貸款申請詳情
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.FirstName, "名", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.HiddenFor(model => model.CustomerID)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.LastName, "姓", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.DateOfBirth, "生日", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.IncomeRange, "收入", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.IncomeRange, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.OccupationGroup, "職業別", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.OccupationGroup, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.PhoneNumber, "電話號碼", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.LoanAmount, "申請貸款金額", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.LoanAmount, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.HiddenFor(model => model.ProductName)
+                                    @Html.HiddenFor(model => model.LoanProductID)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.EconomicProof, "財力證明", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.EconomicProofPath, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.DisbursementAccount, "貸款匯入帳號", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.DisbursementAccount, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.LoanTermMonths, "還款月份", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.LoanTermMonths, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.InteresRate, "利率", htmlAttributes: new { @class = "col-sm-3 col-form-label text-right" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.InteresRate, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-primary">提交申請</button>
+                            <a href="@Url.Action("CancelApplication", "Loan")" class="btn btn-secondary">取消申請</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

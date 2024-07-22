@@ -1,0 +1,134 @@
+﻿@model 專題Version1.Models.ViewModels.LoginViewModel
+
+@{
+    ViewBag.Title = "Login2";
+    Layout = "~/Views/Shared/_Layout 2.cshtml";
+}
+
+<div class="col-lg-6 d-flex align-items-center justify-content-center">
+    <div class="auth-form-transparent text-left p-3">
+        <div class="brand-logo">
+            <img src="~/assets/images/favicon.png" />
+            <h1>
+                SendTree
+                <span style="color:darkblue">Bank</span>
+            </h1>
+        </div>
+        <h4>Welcome back!</h4>
+        <h6 class="font-weight-light">Happy to see you again!</h6>
+        <p>@ViewBag.Error</p>
+        @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @class = "pt-3", id = "loginForm" }))
+        {
+
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email)
+                <div class="input-group">
+                    <div class="input-group-prepend bg-transparent">
+                        <span class="input-group-text bg-transparent border-right-0">
+                            <i class="ti-user text-primary"></i>
+                        </span>
+                    </div>
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control form-control-lg border-left-0", @id = "exampleInputEmail", @placeholder = "Username" })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password)
+                <div class="input-group">
+                    <div class="input-group-prepend bg-transparent">
+                        <span class="input-group-text bg-transparent border-right-0">
+                            <i class="ti-user text-primary"></i>
+                        </span>
+                    </div>
+                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control form-control-lg border-left-0", @id = "exampleInputPassword", @placeholder = "Password", @type = "password" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="my-3">
+                <input type="submit" value="Login" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" />
+            </div>
+            <a href="#" id="autoFillLink1" class="auth-link text-black">Demo 1</a>
+            <a href="#" id="autoFillLink2" class="auth-link text-black">Demo 2</a>
+
+
+
+            <div class="my-2 d-flex justify-content-between align-items-center">
+                @Html.ActionLink("Forgot password?", "ResetPassword", new { @class = "auth-link text-black" })
+            </div>
+            <div class="text-center mt-4 font-weight-light">
+                Don't have an account?@Html.ActionLink("Create", "Register", new { @class = "text-center mt-4 font-weight-light" })
+
+            </div>
+
+        }
+    </div>
+</div>
+
+@section scripts{
+    <link href="~/Scripts/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/Scripts/sweetalert2.min.js"></script>
+    <script src="~/Scripts/jquery-3.6.1.min.js"></script>
+    <
+    <script>
+        $(document).ready(function () {
+            $('#autoFillLink1').click(function (e) {
+                e.preventDefault();
+
+                $('#exampleInputEmail').val('john.doe@example.com');
+                $('#exampleInputPassword').val('123');
+            });
+            $('#autoFillLink2').click(function (e) {
+                e.preventDefault();
+           
+                $('#exampleInputEmail').val('alice.johnson@example.com');
+                $('#exampleInputPassword').val('hashed_password3');
+            });
+
+            $('#loginForm').submit(function (e) {
+                
+                e.preventDefault(); // 阻止表單提交
+
+                $.ajax({
+                    url: '@Url.Action("Login", "User")',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            // 登入成功，顯示成功的彈跳視窗
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Login successful!',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(function () {
+                                window.location.href = '@Url.Action("Index", "User")';
+                            });
+                        } else {
+                            // 登入失敗，顯示失敗的彈跳視窗
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Login failed. Please check your credentials.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function () {
+                        // 請求失敗，顯示通用的錯誤彈跳視窗
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while processing your request.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+}
+

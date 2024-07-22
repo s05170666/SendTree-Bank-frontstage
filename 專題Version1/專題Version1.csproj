@@ -1,0 +1,603 @@
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FCDFDABA-40BA-4F24-8DA9-97ABB980BC5F}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>專題Version1</RootNamespace>
+    <AssemblyName>專題Version1</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Azure.Core, Version=1.39.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Core.1.39.0\lib\net472\Azure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Storage.Blobs, Version=12.20.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Storage.Blobs.12.20.0\lib\netstandard2.0\Azure.Storage.Blobs.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Storage.Common, Version=12.19.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Storage.Common.12.19.0\lib\netstandard2.0\Azure.Storage.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ClientModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ClientModel.1.0.0\lib\netstandard2.0\System.ClientModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.6.0.1\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Hashing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Hashing.6.0.0\lib\net461\System.IO.Hashing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory.Data, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.Data.1.0.2\lib\net461\System.Memory.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.5.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.7.2\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.4.7.2\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.9\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.9\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.9\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.9\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.9\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.1\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.9\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.9\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\css\style.css" />
+    <Content Include="assets\documentation\documentation.html" />
+    <Content Include="assets\images\auth\lockscreen-bg.jpg" />
+    <Content Include="assets\images\auth\login-bg.jpg" />
+    <Content Include="assets\images\auth\register-bg.jpg" />
+    <Content Include="assets\images\cash.svg" />
+    <Content Include="assets\images\dashboard\shape-1.svg" />
+    <Content Include="assets\images\dashboard\shape-2.svg" />
+    <Content Include="assets\images\dashboard\shape-3.svg" />
+    <Content Include="assets\images\dashboard\shape-4.svg" />
+    <Content Include="assets\images\faces\face1.jpg" />
+    <Content Include="assets\images\faces\face10.jpg" />
+    <Content Include="assets\images\faces\face11.jpg" />
+    <Content Include="assets\images\faces\face12.jpg" />
+    <Content Include="assets\images\faces\face13.jpg" />
+    <Content Include="assets\images\faces\face14.jpg" />
+    <Content Include="assets\images\faces\face15.jpg" />
+    <Content Include="assets\images\faces\face16.jpg" />
+    <Content Include="assets\images\faces\face17.jpg" />
+    <Content Include="assets\images\faces\face18.jpg" />
+    <Content Include="assets\images\faces\face19.jpg" />
+    <Content Include="assets\images\faces\face2.jpg" />
+    <Content Include="assets\images\faces\face20.jpg" />
+    <Content Include="assets\images\faces\face21.jpg" />
+    <Content Include="assets\images\faces\face22.jpg" />
+    <Content Include="assets\images\faces\face23.jpg" />
+    <Content Include="assets\images\faces\face24.jpg" />
+    <Content Include="assets\images\faces\face25.jpg" />
+    <Content Include="assets\images\faces\face26.jpg" />
+    <Content Include="assets\images\faces\face27.jpg" />
+    <Content Include="assets\images\faces\face28.jpg" />
+    <Content Include="assets\images\faces\face3.jpg" />
+    <Content Include="assets\images\faces\face4.jpg" />
+    <Content Include="assets\images\faces\face5.jpg" />
+    <Content Include="assets\images\faces\face6.jpg" />
+    <Content Include="assets\images\faces\face7.jpg" />
+    <Content Include="assets\images\faces\face8.jpg" />
+    <Content Include="assets\images\faces\face9.jpg" />
+    <Content Include="assets\images\favicon.ico" />
+    <Content Include="assets\images\favicon.png" />
+    <Content Include="assets\images\hero-bg.png" />
+    <Content Include="assets\images\images.png" />
+    <Content Include="assets\images\Loan1.png" />
+    <Content Include="assets\images\Loan2.png" />
+    <Content Include="assets\images\Loan3.png" />
+    <Content Include="assets\images\Loan4.png" />
+    <Content Include="assets\images\Loan5.png" />
+    <Content Include="assets\images\logo-mini.svg" />
+    <Content Include="assets\images\logo.svg" />
+    <Content Include="assets\images\PLQ22024_1600x350.jpg" />
+    <Content Include="assets\images\slider-img.png" />
+    <Content Include="assets\js\chart.js" />
+    <Content Include="assets\js\dashboard.js" />
+    <Content Include="assets\js\documentation.js" />
+    <Content Include="assets\js\file-upload.js" />
+    <Content Include="assets\js\hoverable-collapse.js" />
+    <Content Include="assets\js\jquery.cookie.js" />
+    <Content Include="assets\js\off-canvas.js" />
+    <Content Include="assets\js\tabs.js" />
+    <Content Include="assets\js\template.js" />
+    <Content Include="assets\js\todolist.js" />
+    <Content Include="assets\js\tooltips.js" />
+    <Content Include="assets\pages\charts\chartjs.html" />
+    <Content Include="assets\pages\forms\basic_elements.html" />
+    <Content Include="assets\pages\icons\themify.html" />
+    <Content Include="assets\pages\samples\lock-screen.html" />
+    <Content Include="assets\pages\samples\login-2.html" />
+    <Content Include="assets\pages\samples\login.html" />
+    <Content Include="assets\pages\samples\register-2.html" />
+    <Content Include="assets\pages\samples\register.html" />
+    <Content Include="assets\pages\tables\basic-table.html" />
+    <Content Include="assets\pages\ui-features\buttons.html" />
+    <Content Include="assets\pages\ui-features\typography.html" />
+    <Content Include="assets\partials\_footer.html" />
+    <Content Include="assets\partials\_navbar.html" />
+    <Content Include="assets\partials\_sidebar.html" />
+    <Content Include="assets\vendors\base\vendor.bundle.base.css" />
+    <Content Include="assets\vendors\base\vendor.bundle.base.js" />
+    <Content Include="assets\vendors\chart.js\Chart.min.js" />
+    <Content Include="assets\vendors\ti-icons\css\themify-icons.css" />
+    <Content Include="assets\vendors\ti-icons\fonts\themify.svg" />
+    <Content Include="build\css\jquery.steps.css" />
+    <Content Include="build\css\main.css" />
+    <Content Include="build\css\normalize.css" />
+    <Content Include="build\jquery-1.9.1.min.js" />
+    <Content Include="build\jquery.cookie-1.3.1.js" />
+    <Content Include="build\jquery.steps.js" />
+    <Content Include="build\jquery.steps.min.js" />
+    <Content Include="build\modernizr-2.6.2.min.js" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Models\AccountDbContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AccountDbContext.Context.cs</LastGenOutput>
+      <DependentUpon>AccountDbContext.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\AccountDbContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AccountDbContext.edmx</DependentUpon>
+      <LastGenOutput>AccountDbContext.cs</LastGenOutput>
+    </Content>
+    <Content Include="build\jquery.steps-1.1.0.zip" />
+    <Content Include="build\jQuery.Steps.1.1.0.nupkg" />
+    <EntityDeploy Include="Models\LoanModels\LoanDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LoanDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\LoanModels\LoanDB.edmx.diagram">
+      <DependentUpon>LoanDB.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\LoanModels\LoanDB2.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LoanDB2.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\LoanModels\LoanDB2.edmx.diagram">
+      <DependentUpon>LoanDB2.edmx</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.6.1.intellisense.js" />
+    <Content Include="Models\LoanModels\LoanDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LoanDB.edmx</DependentUpon>
+      <LastGenOutput>LoanDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\LoanModels\LoanDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LoanDB.edmx</DependentUpon>
+      <LastGenOutput>LoanDB.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\LoanModels\LoanDB2.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LoanDB2.edmx</DependentUpon>
+      <LastGenOutput>LoanDB2.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\LoanModels\LoanDB2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LoanDB2.edmx</DependentUpon>
+      <LastGenOutput>LoanDB2.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\jquery-3.6.1.js" />
+    <Content Include="Scripts\jquery-3.6.1.min.js" />
+    <Content Include="Scripts\jquery-3.6.1.slim.js" />
+    <Content Include="Scripts\jquery-3.6.1.slim.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\sweetalert2.min.css" />
+    <Content Include="Scripts\sweetalert2.min.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\APIControllers\TransactionAPIController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExpensController.cs" />
+    <Compile Include="Controllers\LoanController.cs" />
+    <Compile Include="Controllers\TransactionController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Account.cs">
+      <DependentUpon>AccountDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountDbContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountDbContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountDbContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountDbContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountDbContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountStatu.cs">
+      <DependentUpon>AccountDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountType.cs">
+      <DependentUpon>AccountDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DTO\AccountDetailsDTO.cs" />
+    <Compile Include="Models\Budget.cs">
+      <DependentUpon>AccountDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>AccountDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customer.cs">
+      <DependentUpon>AccountDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DTO\TransactionDTO.cs" />
+    <Compile Include="Models\Expens.cs">
+      <DependentUpon>AccountDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\CustomersInLoan.cs">
+      <DependentUpon>LoanDB2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\IncomeRangeRate.cs">
+      <DependentUpon>LoanDB2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\LoanApplication.cs">
+      <DependentUpon>LoanDB2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\LoanDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoanDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\LoanDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoanDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\LoanDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoanDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\LoanDB2.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoanDB2.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\LoanDB2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoanDB2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\LoanDB2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoanDB2.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\LoanProduct.cs">
+      <DependentUpon>LoanDB2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\OccupationGroupRate.cs">
+      <DependentUpon>LoanDB2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\RepaymentAccount.cs">
+      <DependentUpon>LoanDB2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\RepaymentSchedule.cs">
+      <DependentUpon>LoanDB2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanModels\TransactionLog.cs">
+      <DependentUpon>LoanDB2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SessionModel.cs" />
+    <Compile Include="Models\Transaction.cs">
+      <DependentUpon>AccountDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\LoanApplicationViewModel.cs" />
+    <Compile Include="Models\ViewModels\LoanDetailsViewModel.cs" />
+    <Compile Include="Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\RegisterViewModel.cs" />
+    <Compile Include="Models\ViewModels\TransactionDetailsViewModel.cs" />
+    <Compile Include="Models\ViewModels\TransferViewModel.cs" />
+    <Compile Include="Models\ViewModels\UserAccountViewModl.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountServices.cs" />
+    <Compile Include="Services\AzureBlobService.cs" />
+    <Compile Include="Services\ExchangeRateService.cs" />
+    <Compile Include="Services\LoginServices.cs" />
+    <Compile Include="Services\SessionCheckFilterAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="assets\scss\.DS_Store" />
+    <Content Include="assets\scss\components\.DS_Store" />
+    <Content Include="assets\scss\components\_badges.scss" />
+    <Content Include="assets\scss\components\_bootstrap-progress.scss" />
+    <Content Include="assets\scss\components\_buttons.scss" />
+    <Content Include="assets\scss\components\_cards.scss" />
+    <Content Include="assets\scss\components\_checkbox-radio.scss" />
+    <Content Include="assets\scss\components\_dropdown.scss" />
+    <Content Include="assets\scss\components\_forms.scss" />
+    <Content Include="assets\scss\components\_icons.scss" />
+    <Content Include="assets\scss\components\_lists.scss" />
+    <Content Include="assets\scss\components\_tables.scss" />
+    <Content Include="assets\scss\components\_todo-list.scss" />
+    <Content Include="assets\scss\landing-screens\_auth.scss" />
+    <Content Include="assets\scss\mixins\.DS_Store" />
+    <Content Include="assets\scss\mixins\_animation.scss" />
+    <Content Include="assets\scss\mixins\_badges.scss" />
+    <Content Include="assets\scss\mixins\_blockqoute.scss" />
+    <Content Include="assets\scss\mixins\_buttons.scss" />
+    <Content Include="assets\scss\mixins\_cards.scss" />
+    <Content Include="assets\scss\mixins\_misc.scss" />
+    <Content Include="assets\scss\style.scss" />
+    <Content Include="assets\scss\_background.scss" />
+    <Content Include="assets\scss\_demo.scss" />
+    <Content Include="assets\scss\_fonts.scss" />
+    <Content Include="assets\scss\_footer.scss" />
+    <Content Include="assets\scss\_functions.scss" />
+    <Content Include="assets\scss\_layouts.scss" />
+    <Content Include="assets\scss\_misc.scss" />
+    <Content Include="assets\scss\_navbar.scss" />
+    <Content Include="assets\scss\_reset.scss" />
+    <Content Include="assets\scss\_sidebar.scss" />
+    <Content Include="assets\scss\_typography.scss" />
+    <Content Include="assets\scss\_utilities.scss" />
+    <Content Include="assets\scss\_variables.scss" />
+    <Content Include="assets\scss\_vertical-wrapper.scss" />
+    <Content Include="assets\vendors\.DS_Store" />
+    <Content Include="assets\vendors\base\bootstrap.min.js.map" />
+    <Content Include="assets\vendors\ti-icons\fonts\themify.eot" />
+    <Content Include="assets\vendors\ti-icons\fonts\themify.ttf" />
+    <Content Include="assets\vendors\ti-icons\fonts\themify.woff" />
+    <Content Include="assets\css\.DS_Store" />
+    <Content Include="assets\css\maps\style.css.map" />
+    <Content Include="assets\documentation\.DS_Store" />
+    <Content Include="assets\fonts\.DS_Store" />
+    <Content Include="assets\fonts\Roboto\.DS_Store" />
+    <Content Include="assets\fonts\Roboto\Roboto-Black.eot" />
+    <Content Include="assets\fonts\Roboto\Roboto-Black.ttf" />
+    <Content Include="assets\fonts\Roboto\Roboto-Black.woff" />
+    <Content Include="assets\fonts\Roboto\Roboto-Black.woff2" />
+    <Content Include="assets\fonts\Roboto\Roboto-Bold.eot" />
+    <Content Include="assets\fonts\Roboto\Roboto-Bold.ttf" />
+    <Content Include="assets\fonts\Roboto\Roboto-Bold.woff" />
+    <Content Include="assets\fonts\Roboto\Roboto-Bold.woff2" />
+    <Content Include="assets\fonts\Roboto\Roboto-Light.eot" />
+    <Content Include="assets\fonts\Roboto\Roboto-Light.ttf" />
+    <Content Include="assets\fonts\Roboto\Roboto-Light.woff" />
+    <Content Include="assets\fonts\Roboto\Roboto-Light.woff2" />
+    <Content Include="assets\fonts\Roboto\Roboto-Medium.eot" />
+    <Content Include="assets\fonts\Roboto\Roboto-Medium.ttf" />
+    <Content Include="assets\fonts\Roboto\Roboto-Medium.woff" />
+    <Content Include="assets\fonts\Roboto\Roboto-Medium.woff2" />
+    <Content Include="assets\fonts\Roboto\Roboto-Regular.eot" />
+    <Content Include="assets\fonts\Roboto\Roboto-Regular.ttf" />
+    <Content Include="assets\fonts\Roboto\Roboto-Regular.woff" />
+    <Content Include="assets\fonts\Roboto\Roboto-Regular.woff2" />
+    <Content Include="assets\images\.DS_Store" />
+    <Content Include="assets\images\auth\.DS_Store" />
+    <Content Include="assets\images\faces\.DS_Store" />
+    <Content Include="assets\js\.DS_Store" />
+    <Content Include="assets\pages\.DS_Store" />
+    <Content Include="assets\pages\charts\.DS_Store" />
+    <Content Include="assets\pages\forms\.DS_Store" />
+    <Content Include="assets\pages\icons\.DS_Store" />
+    <Content Include="assets\pages\samples\.DS_Store" />
+    <Content Include="assets\pages\tables\.DS_Store" />
+    <Content Include="assets\pages\ui-features\.DS_Store" />
+    <Content Include="assets\partials\.DS_Store" />
+    <EntityDeploy Include="Models\AccountDbContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AccountDbContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\AccountDbContext.edmx.diagram">
+      <DependentUpon>AccountDbContext.edmx</DependentUpon>
+    </Content>
+    <None Include="packages.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Transaction\Transfer.cshtml" />
+    <Content Include="Views\Transaction\TransferDetails.cshtml" />
+    <Content Include="Views\Shared\_Layout 2.cshtml" />
+    <Content Include="Views\User\Login2.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Scripts\jquery-3.6.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.6.1.min.map" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\ServerError.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Loan\LoanProductsList.cshtml" />
+    <Content Include="Views\Loan\LoanProductDetail.cshtml" />
+    <Content Include="Views\Loan\LoanCreate.cshtml" />
+    <Content Include="Views\Loan\trial.cshtml" />
+    <Content Include="Views\Transaction\GetTransactions.cshtml" />
+    <Content Include="Views\Loan\OneMinTrial.cshtml" />
+    <Content Include="Views\Loan\Preview.cshtml" />
+    <Content Include="Views\Loan\MyLoan.cshtml" />
+    <Content Include="Views\Loan\LoanDetails.cshtml" />
+    <Content Include="Views\Loan\ApplyDone.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="EconomicProofs\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Expens\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>60773</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:60773/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

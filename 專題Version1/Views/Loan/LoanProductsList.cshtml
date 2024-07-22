@@ -1,0 +1,133 @@
+﻿@section style {
+    <style>
+        .content-wrapper {
+            position: relative;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            max-width: 1600px; /* 图片的最大宽度 */
+            margin: 0 auto; /* 水平居中 */
+            overflow: hidden; /* 超出部分隐藏 */
+        }
+
+        .image-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: black; /* 文本颜色为黑色 */
+            width: 80%; /* 文本宽度 */
+            background-color: rgba(0, 0, 0, 0); /* 透明背景 */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+        }
+
+            .image-text h1 {
+                font-size: 36px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .image-text h3 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .image-text a {
+                background-color: #28a745;
+                color: #fff;
+                padding: 12px 24px;
+                text-decoration: none;
+                border-radius: 50px;
+                display: inline-block;
+                font-weight: bold;
+                transition: background-color 0.3s;
+            }
+
+                .image-text a:hover {
+                    background-color: #218838;
+                }
+
+        .card {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+            .card:hover {
+                transform: scale(1.05);
+            }
+
+            .card img {
+                width: 100%;
+                border-radius: 10px;
+            }
+
+        .card-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .text-muted {
+            color: #6c757d;
+        }
+
+        .font-weight-light {
+            font-weight: 300;
+        }
+
+        .row {
+            margin-top: 20px;
+        }
+    </style>
+}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="image-container">
+            <img src="~/assets/images/PLQ22024_1600x350.jpg" class="img-fluid" />
+            <div class="image-text">
+                <h1>信貸申請到撥款最快10分鐘</h1>
+                <h3>信貸手續費限時優惠0元</h3>
+                <a href="@Url.Action("OneMinTrial")" class="btn btn-success btn-rounded btn-fw">1分鐘試算</a>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            @{
+                int imageIndex = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img src="https://sean861226.blob.core.windows.net/sharefolder/@item.ImageFileName" alt="@item.ProductName" class="img-fluid" />
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="card-title">@item.ProductName</h4>
+                                    <h3 class="text-muted font-weight-light">@item.InterestRate% 起</h3>
+                                    <p class="text-muted font-weight-light">最高可貸: @item.MaxLoanAmount.ToString("N0") 元</p>
+                                    <br />
+                                    @Html.ActionLink("了解更多", "LoanProductDetail", "Loan", new { id = item.LoanProductID }, new { @class = "btn btn-warning btn-rounded btn-fw" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                imageIndex++;
+            }
+        </div>
+    </div>
+</div>
